@@ -3,12 +3,622 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nexo Knights — BrickForge</title>
+  <title>Nexo Knights — The Book of Monsters</title>
   <link rel="stylesheet" href="styles/global.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=Rajdhani:wght@400;500;600;700&family=MedievalSharp&display=swap" rel="stylesheet" />
+  <style>
+    /* ═══════════════════════════════════════════════
+       BOOK OF MONSTERS — NEXO KNIGHTS THEME
+       Concept: You ARE browsing the cursed Book of
+       Monsters itself. Every UI element is part of the
+       tome — parchment pages, leather binding, eye of
+       evil, fire glows, ancient runes.
+    ═══════════════════════════════════════════════ */
+
+    :root {
+      --fire:        #FF4400;
+      --fire-bright: #FF7700;
+      --fire-glow:   #FF2200;
+      --ember:       #FF9900;
+      --char:        #1a0800;
+      --parchment:   #0d0500;
+      --leather:     #1c0a03;
+      --gold-rune:   #c8820a;
+      --gold-bright: #ffb84d;
+      --eye-green:   #00ff88;
+      --smoke:       rgba(255,100,0,0.06);
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body.nexo-page {
+      background: var(--char);
+      color: #d4b896;
+      font-family: 'Rajdhani', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='4' fill='%23ff4400' opacity='0.8'/%3E%3Ccircle cx='10' cy='10' r='8' fill='none' stroke='%23ff4400' stroke-width='1' opacity='0.4'/%3E%3C/svg%3E") 10 10, auto;
+    }
+
+    /* ── LEATHER TEXTURE BACKGROUND ── */
+    body.nexo-page::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0,0,0,0.08) 2px,
+          rgba(0,0,0,0.08) 4px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 3px,
+          rgba(0,0,0,0.05) 3px,
+          rgba(0,0,0,0.05) 6px
+        ),
+        radial-gradient(ellipse 120% 80% at 50% 0%, rgba(180,40,0,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 60% at 50% 100%, rgba(120,20,0,0.15) 0%, transparent 50%),
+        var(--char);
+      pointer-events: none;
+    }
+
+    /* ── FIRE EMBERS CANVAS ── */
+    #emberCanvas {
+      position: fixed; inset: 0; z-index: 1;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    /* ── BOOK SPINE BORDER on left ── */
+    body.nexo-page::after {
+      content: '';
+      position: fixed; left: 0; top: 0; bottom: 0;
+      width: 8px; z-index: 10;
+      background: linear-gradient(to right,
+        #3a1200,
+        #8b3a00 30%,
+        #3a1200 70%,
+        #1a0800
+      );
+      box-shadow: 4px 0 20px rgba(0,0,0,0.6);
+    }
+
+    /* ── NAV — styled as book header band ── */
+    .nav {
+      background: linear-gradient(to bottom, #2a0d00, #1a0800) !important;
+      border-bottom: 2px solid var(--gold-rune) !important;
+      box-shadow: 0 4px 30px rgba(200,80,0,0.3), inset 0 -1px 0 rgba(255,120,0,0.2) !important;
+      position: relative; z-index: 100;
+    }
+    .nav::before {
+      content: '✦  LIBER MONSTRORUM  ✦';
+      position: absolute; left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: 0.5em;
+      color: rgba(200,130,10,0.35);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .nav-logo .logo-text { color: var(--gold-bright) !important; }
+    .nav-logo .logo-accent { color: var(--fire-bright) !important; }
+    .nav-link { color: #b87a3a !important; }
+    .nav-link:hover,
+    .nav-link.active { color: var(--gold-bright) !important; }
+
+    /* ── HERO — THE BOOK COVER ── */
+    .book-hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    /* Radial fire glow from centre */
+    .book-hero-fire {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 50%, rgba(200,60,0,0.22) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 30% at 50% 45%, rgba(255,80,0,0.15) 0%, transparent 50%);
+      animation: heroFireBreath 4s ease-in-out infinite;
+    }
+    @keyframes heroFireBreath {
+      0%,100% { opacity: 0.7; }
+      50%      { opacity: 1; }
+    }
+
+    /* Cracked leather panels left/right */
+    .book-hero-panel {
+      position: absolute; top: 0; bottom: 0; width: 80px;
+      background: linear-gradient(to right, #2a0d00, transparent);
+      z-index: 2;
+    }
+    .book-hero-panel.right {
+      right: 0; left: auto;
+      background: linear-gradient(to left, #2a0d00, transparent);
+    }
+
+    /* decorative corner runes */
+    .book-corner {
+      position: absolute; width: 120px; height: 120px; z-index: 3;
+      opacity: 0.5;
+    }
+    .book-corner svg { width: 100%; height: 100%; }
+    .book-corner.tl { top: 80px; left: 20px; }
+    .book-corner.tr { top: 80px; right: 20px; transform: scaleX(-1); }
+    .book-corner.bl { bottom: 20px; left: 20px; transform: scaleY(-1); }
+    .book-corner.br { bottom: 20px; right: 20px; transform: scale(-1); }
+
+    /* The Eye of the Book of Monsters */
+    .book-eye {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3;
+      width: 200px; height: 100px;
+      pointer-events: none;
+    }
+    .book-eye::before {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: 50% / 50%;
+      border: 2px solid rgba(200,130,10,0.3);
+      box-shadow: 0 0 40px rgba(200,60,0,0.3), inset 0 0 40px rgba(200,60,0,0.1);
+      animation: eyePulse 3s ease-in-out infinite;
+    }
+    @keyframes eyePulse {
+      0%,100% { box-shadow: 0 0 40px rgba(200,60,0,0.3), inset 0 0 40px rgba(200,60,0,0.1); }
+      50%      { box-shadow: 0 0 80px rgba(255,80,0,0.5), inset 0 0 60px rgba(255,80,0,0.2); }
+    }
+
+    .book-hero-content {
+      position: relative; z-index: 5;
+      text-align: center;
+      padding: 160px 24px 80px;
+      max-width: 700px;
+    }
+
+    .book-tome-label {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 0.55em;
+      text-transform: uppercase;
+      color: var(--gold-rune);
+      opacity: 0.8;
+      margin-bottom: 24px;
+      animation: fadeSlideUp 0.8s ease 0.2s both;
+    }
+
+    .book-title {
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-size: clamp(52px, 10vw, 110px);
+      line-height: 0.9;
+      color: var(--fire-bright);
+      text-shadow:
+        0 0 30px rgba(255,80,0,0.6),
+        0 0 60px rgba(200,40,0,0.4),
+        0 0 100px rgba(150,20,0,0.3),
+        2px 4px 0 rgba(0,0,0,0.8);
+      animation: titleFlicker 6s ease-in-out infinite, fadeSlideUp 1s ease 0.4s both;
+      margin-bottom: 12px;
+    }
+    @keyframes titleFlicker {
+      0%,95%,100% { opacity: 1; }
+      96%          { opacity: 0.85; }
+      97%          { opacity: 1; }
+      98%          { opacity: 0.9; }
+    }
+
+    .book-subtitle {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(11px, 2vw, 16px);
+      letter-spacing: 0.35em;
+      color: var(--gold-rune);
+      text-transform: uppercase;
+      animation: fadeSlideUp 1s ease 0.6s both;
+      margin-bottom: 32px;
+    }
+
+    .book-divider {
+      display: flex; align-items: center; gap: 16px;
+      justify-content: center;
+      margin-bottom: 28px;
+      animation: fadeSlideUp 1s ease 0.7s both;
+    }
+    .book-divider-line {
+      flex: 1; max-width: 120px; height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold-rune), transparent);
+    }
+    .book-divider-rune {
+      font-family: 'Cinzel', serif;
+      font-size: 14px; color: var(--gold-rune);
+    }
+
+    .book-desc {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(12px, 1.4vw, 15px);
+      line-height: 1.9;
+      color: #c4a07a;
+      max-width: 520px;
+      margin: 0 auto;
+      animation: fadeSlideUp 1s ease 0.8s both;
+      font-style: italic;
+    }
+
+    /* Scroll hint */
+    .book-scroll-hint {
+      position: absolute; bottom: 32px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      animation: fadeSlideUp 1s ease 1.2s both;
+    }
+    .book-scroll-hint span {
+      font-family: 'Cinzel', serif;
+      font-size: 9px; letter-spacing: 0.4em;
+      color: rgba(200,130,10,0.5); text-transform: uppercase;
+    }
+    .book-scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--gold-rune), transparent);
+      animation: scrollDrop 2s ease-in-out infinite;
+    }
+    @keyframes scrollDrop {
+      0%   { transform: scaleY(0); transform-origin: top; opacity: 0; }
+      50%  { transform: scaleY(1); opacity: 1; }
+      100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── PAGE TURN SEPARATOR ── */
+    .page-turn {
+      position: relative; z-index: 2;
+      height: 60px; overflow: hidden;
+      margin: 0;
+    }
+    .page-turn::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom,
+        var(--char),
+        rgba(30,8,0,0.0)
+      );
+    }
+    .page-turn-line {
+      position: absolute; top: 50%; left: 10%; right: 10%;
+      height: 1px;
+      background: linear-gradient(to right,
+        transparent,
+        rgba(200,130,10,0.2) 20%,
+        rgba(200,130,10,0.5) 50%,
+        rgba(200,130,10,0.2) 80%,
+        transparent
+      );
+    }
+
+    /* ── CONTENT AREA — styled as open book pages ── */
+    .book-content {
+      position: relative; z-index: 2;
+      padding: 60px 40px 80px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* section eyebrow */
+    .book-section-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 0.55em;
+      text-transform: uppercase;
+      color: var(--fire-bright);
+      opacity: 0.7;
+      margin-bottom: 10px;
+    }
+    .book-section-title {
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-size: clamp(32px, 5vw, 54px);
+      color: var(--gold-bright);
+      text-shadow: 0 0 20px rgba(255,100,0,0.3), 2px 3px 0 rgba(0,0,0,0.7);
+      margin-bottom: 40px;
+      line-height: 1;
+    }
+
+    /* ── CHAPTER BLOCKS — like book chapters ── */
+    .bom-chapter {
+      margin-bottom: 20px;
+      border: 1px solid rgba(200,130,10,0.15);
+      border-radius: 4px;
+      background: rgba(20,6,0,0.6);
+      overflow: hidden;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+    .bom-chapter::before {
+      content: '';
+      position: absolute; top: 0; left: 0; bottom: 0; width: 4px;
+      background: linear-gradient(to bottom, var(--fire), var(--gold-rune));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .bom-chapter:hover { border-color: rgba(200,130,10,0.35); }
+    .bom-chapter:hover::before { opacity: 1; }
+    .bom-chapter.open {
+      border-color: rgba(200,130,10,0.4);
+      box-shadow: 0 0 30px rgba(200,60,0,0.12), inset 0 0 40px rgba(150,30,0,0.08);
+    }
+    .bom-chapter.open::before { opacity: 1; }
+
+    /* Chapter header */
+    .bom-chapter-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 28px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s;
+      gap: 16px;
+    }
+    .bom-chapter-header:hover { background: rgba(200,60,0,0.05); }
+
+    .bom-chapter-left { display: flex; align-items: center; gap: 18px; }
+
+    /* Roman numeral chapter badge */
+    .bom-chapter-numeral {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 13px;
+      font-weight: 900;
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: radial-gradient(circle, rgba(200,80,0,0.2), rgba(100,30,0,0.4));
+      border: 1px solid rgba(200,130,10,0.3);
+      color: var(--gold-rune);
+      flex-shrink: 0;
+      transition: all 0.3s;
+      position: relative;
+    }
+    .bom-chapter-numeral::after {
+      content: '';
+      position: absolute; inset: -4px; border-radius: 50%;
+      border: 1px solid rgba(200,130,10,0.1);
+    }
+    .bom-chapter.open .bom-chapter-numeral {
+      background: radial-gradient(circle, rgba(255,100,0,0.4), rgba(150,40,0,0.5));
+      border-color: var(--gold-rune);
+      color: var(--gold-bright);
+      box-shadow: 0 0 20px rgba(255,100,0,0.4), 0 0 40px rgba(200,60,0,0.2);
+    }
+
+    .bom-chapter-info h3 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(14px, 1.8vw, 18px);
+      font-weight: 700;
+      color: #d4a870;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+    .bom-chapter.open .bom-chapter-info h3 { color: var(--gold-bright); }
+    .bom-chapter-info p {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 12px;
+      color: rgba(200,160,100,0.5);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+
+    .bom-chevron {
+      color: rgba(200,130,10,0.4);
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), color 0.2s;
+      flex-shrink: 0;
+    }
+    .bom-chapter.open .bom-chevron {
+      transform: rotate(180deg);
+      color: var(--fire-bright);
+    }
+
+    /* Episode list inside chapter */
+    .bom-episodes {
+      display: none;
+      padding: 0 28px 24px;
+      gap: 10px;
+      flex-direction: column;
+      border-top: 1px solid rgba(200,130,10,0.1);
+    }
+    .bom-chapter.open .bom-episodes {
+      display: flex;
+      animation: pageOpen 0.3s ease both;
+    }
+    @keyframes pageOpen {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Episode cards — look like torn pages / scrolls */
+    .bom-ep-card {
+      display: flex; align-items: center; gap: 16px;
+      padding: 16px 20px;
+      border-radius: 3px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(200,130,10,0.08);
+      border-left: 3px solid rgba(200,80,0,0.3);
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+      margin-top: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+    .bom-ep-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(255,60,0,0.04) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .bom-ep-card:hover {
+      background: rgba(200,60,0,0.08);
+      border-color: rgba(200,130,10,0.35);
+      border-left-color: var(--fire-bright);
+      transform: translateX(4px);
+      box-shadow: -4px 0 20px rgba(255,60,0,0.15);
+    }
+    .bom-ep-card:hover::before { opacity: 1; }
+
+    /* fire play button */
+    .bom-play {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,80,0,0.3), rgba(150,30,0,0.4));
+      border: 1px solid rgba(255,100,0,0.4);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--fire-bright);
+      flex-shrink: 0;
+      transition: all 0.2s;
+      box-shadow: 0 0 12px rgba(255,60,0,0.3);
+    }
+    .bom-play svg { width: 18px; height: 18px; fill: currentColor; }
+    .bom-ep-card:hover .bom-play {
+      background: radial-gradient(circle, rgba(255,120,0,0.5), rgba(200,50,0,0.5));
+      box-shadow: 0 0 24px rgba(255,80,0,0.5);
+      border-color: var(--fire-bright);
+    }
+
+    .bom-ep-info { flex: 1; min-width: 0; }
+    .bom-ep-label {
+      font-family: 'Cinzel', serif;
+      font-size: 10px; letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(200,130,10,0.55);
+      margin-bottom: 4px;
+    }
+    .bom-ep-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(13px, 1.4vw, 16px);
+      color: #d4a870;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+    .bom-ep-card:hover .bom-ep-title { color: var(--gold-bright); }
+
+    /* ── MUSIC SECTION — as forbidden spells / incantations ── */
+    .bom-music-section {
+      margin-top: 80px; padding-top: 60px;
+      border-top: 1px solid rgba(200,130,10,0.15);
+    }
+
+    .bom-music-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+
+    .bom-music-card {
+      display: flex; align-items: center; gap: 14px;
+      padding: 18px 20px;
+      border-radius: 3px;
+      background: rgba(20,5,0,0.7);
+      border: 1px solid rgba(200,130,10,0.12);
+      border-left: 3px solid rgba(200,80,0,0.25);
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+      position: relative; overflow: hidden;
+    }
+    .bom-music-card::after {
+      content: '';
+      position: absolute; top: 0; right: 0;
+      width: 40%; height: 1px;
+      background: linear-gradient(to left, transparent, rgba(200,130,10,0.2));
+    }
+    .bom-music-card:hover {
+      background: rgba(200,60,0,0.08);
+      border-left-color: var(--fire-bright);
+      border-color: rgba(200,130,10,0.3);
+      transform: translateX(4px);
+    }
+
+    .bom-music-rune {
+      font-size: 24px; width: 46px; height: 46px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(200,60,0,0.12);
+      border: 1px solid rgba(200,130,10,0.2);
+      border-radius: 3px; flex-shrink: 0;
+    }
+    .bom-music-info { flex: 1; min-width: 0; }
+    .bom-music-title {
+      font-family: 'Cinzel', serif;
+      font-size: 14px; font-weight: 700;
+      color: #d4a870; letter-spacing: 0.04em;
+    }
+    .bom-music-sub {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 11px; letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(200,130,10,0.45);
+      margin-top: 3px;
+    }
+    .bom-music-play {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,80,0,0.3), rgba(150,30,0,0.4));
+      border: 1px solid rgba(255,100,0,0.35);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--fire-bright); flex-shrink: 0;
+      transition: all 0.2s;
+      box-shadow: 0 0 10px rgba(255,60,0,0.25);
+    }
+    .bom-music-card:hover .bom-music-play {
+      box-shadow: 0 0 20px rgba(255,80,0,0.5);
+    }
+
+    /* ── PLAYER MODAL — styled as book binding ── */
+    .player-modal {
+      background: rgba(10,3,0,0.92) !important;
+      backdrop-filter: blur(10px) !important;
+    }
+    .player-inner {
+      background: linear-gradient(to bottom, #1a0700, #0d0400) !important;
+      border: 1px solid rgba(200,130,10,0.3) !important;
+      box-shadow: 0 0 80px rgba(200,50,0,0.3), 0 0 0 1px rgba(200,130,10,0.15) !important;
+    }
+    .player-topbar {
+      background: linear-gradient(to right, #2a0d00, #1a0800) !important;
+      border-bottom: 1px solid rgba(200,130,10,0.2) !important;
+    }
+    .player-episode-name { color: var(--gold-bright) !important; font-family: 'Cinzel', serif !important; }
+    .player-close { color: var(--fire-bright) !important; }
+    .player-notice { color: rgba(200,130,10,0.4) !important; }
+
+    /* ── FOOTER ── */
+    .footer {
+      position: relative; z-index: 2;
+      border-top: 1px solid rgba(200,130,10,0.15) !important;
+      background: linear-gradient(to top, #0d0400, transparent) !important;
+    }
+    .footer-copy { color: rgba(200,130,10,0.3) !important; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .book-content { padding: 40px 20px 60px; }
+      .bom-chapter-header { padding: 18px 20px; }
+      .bom-episodes { padding: 0 16px 20px; }
+      .book-hero-content { padding: 120px 20px 60px; }
+    }
+  </style>
 </head>
 <body class="nexo-page">
+
+  <!-- EMBER PARTICLES -->
+  <canvas id="emberCanvas"></canvas>
 
   <!-- NAV -->
   <nav class="nav" id="nav">
@@ -25,33 +635,123 @@
     </div>
   </nav>
 
-  <!-- HERO -->
-  <section class="show-hero">
-    <div class="show-hero-bg"></div>
-    <div class="show-hero-content">
-      <p class="show-hero-eyebrow">Remastered Series</p>
-      <h1 class="show-hero-title">NEXO<br/><span>KNIGHTS</span></h1>
-      <p class="show-hero-desc">The knights of Knighton harness the power of digital NEXO Powers to battle Jestro, the Book of Monsters, and an army of Lava Monsters. Four chapters. Eight episodes. A kingdom reborn.</p>
+  <!-- BOOK COVER HERO -->
+  <section class="book-hero">
+    <div class="book-hero-fire"></div>
+    <div class="book-hero-panel"></div>
+    <div class="book-hero-panel right"></div>
+
+    <!-- Corner ornaments -->
+    <div class="book-corner tl">
+      <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 10 L60 10 L60 20 L20 20 L20 60 L10 60 Z" stroke="rgba(200,130,10,0.5)" stroke-width="1" fill="rgba(200,80,0,0.05)"/>
+        <path d="M10 10 L10 110" stroke="rgba(200,130,10,0.2)" stroke-width="1"/>
+        <path d="M10 10 L110 10" stroke="rgba(200,130,10,0.2)" stroke-width="1"/>
+        <circle cx="10" cy="10" r="5" fill="rgba(200,130,10,0.4)"/>
+        <circle cx="60" cy="10" r="2" fill="rgba(200,80,0,0.3)"/>
+        <circle cx="10" cy="60" r="2" fill="rgba(200,80,0,0.3)"/>
+        <path d="M25 25 L50 25 L50 35 L35 35 L35 50 L25 50 Z" stroke="rgba(200,130,10,0.25)" stroke-width="0.8" fill="none"/>
+      </svg>
+    </div>
+    <div class="book-corner tr">
+      <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 10 L60 10 L60 20 L20 20 L20 60 L10 60 Z" stroke="rgba(200,130,10,0.5)" stroke-width="1" fill="rgba(200,80,0,0.05)"/>
+        <path d="M10 10 L10 110" stroke="rgba(200,130,10,0.2)" stroke-width="1"/>
+        <path d="M10 10 L110 10" stroke="rgba(200,130,10,0.2)" stroke-width="1"/>
+        <circle cx="10" cy="10" r="5" fill="rgba(200,130,10,0.4)"/>
+      </svg>
+    </div>
+    <div class="book-corner bl">
+      <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 10 L60 10 L60 20 L20 20 L20 60 L10 60 Z" stroke="rgba(200,130,10,0.5)" stroke-width="1" fill="rgba(200,80,0,0.05)"/>
+        <path d="M10 10 L10 110" stroke="rgba(200,130,10,0.2)" stroke-width="1"/>
+        <path d="M10 10 L110 10" stroke="rgba(200,130,10,0.2)" stroke-width="1"/>
+        <circle cx="10" cy="10" r="5" fill="rgba(200,130,10,0.4)"/>
+      </svg>
+    </div>
+    <div class="book-corner br">
+      <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 10 L60 10 L60 20 L20 20 L20 60 L10 60 Z" stroke="rgba(200,130,10,0.5)" stroke-width="1" fill="rgba(200,80,0,0.05)"/>
+        <path d="M10 10 L10 110" stroke="rgba(200,130,10,0.2)" stroke-width="1"/>
+        <path d="M10 10 L110 10" stroke="rgba(200,130,10,0.2)" stroke-width="1"/>
+        <circle cx="10" cy="10" r="5" fill="rgba(200,130,10,0.4)"/>
+      </svg>
+    </div>
+
+    <div class="book-hero-content">
+      <p class="book-tome-label">✦ &nbsp; The Cursed Tome &nbsp; ✦</p>
+
+      <!-- The Book of Monsters SVG eye -->
+      <div style="margin-bottom:32px; animation: fadeSlideUp 0.8s ease 0.3s both;">
+        <svg viewBox="0 0 200 90" width="200" height="90" style="display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="eyeIris" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ff6600"/>
+              <stop offset="40%" stop-color="#cc3300"/>
+              <stop offset="100%" stop-color="#440000"/>
+            </radialGradient>
+            <radialGradient id="eyeGlowRG" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="rgba(255,100,0,0.4)"/>
+              <stop offset="100%" stop-color="rgba(255,100,0,0)"/>
+            </radialGradient>
+            <filter id="eyeGlowF">
+              <feGaussianBlur stdDeviation="3" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- eye outline -->
+          <path d="M10 45 Q100 5 190 45 Q100 85 10 45Z" fill="rgba(20,5,0,0.8)" stroke="rgba(200,130,10,0.5)" stroke-width="1.5"/>
+          <!-- iris -->
+          <ellipse cx="100" cy="45" rx="26" ry="26" fill="url(#eyeIris)" filter="url(#eyeGlowF)"/>
+          <!-- pupil -->
+          <ellipse cx="100" cy="45" rx="11" ry="14" fill="#0a0000"/>
+          <!-- pupil slit -->
+          <ellipse cx="100" cy="45" rx="3" ry="13" fill="#000"/>
+          <!-- eye gleam -->
+          <ellipse cx="107" cy="38" rx="4" ry="3" fill="rgba(255,200,100,0.5)" transform="rotate(-20,107,38)"/>
+          <!-- outer glow -->
+          <path d="M10 45 Q100 5 190 45 Q100 85 10 45Z" fill="none" stroke="rgba(255,80,0,0.3)" stroke-width="6" filter="url(#eyeGlowF)"/>
+          <!-- eyelid top lashes -->
+          <path d="M40 28 L38 18 M70 18 L70 8 M100 15 L100 4 M130 18 L130 8 M160 28 L162 18" stroke="rgba(200,130,10,0.4)" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <h1 class="book-title">The Book<br/>of Monsters</h1>
+      <p class="book-subtitle">Nexo Knights &nbsp;·&nbsp; Remastered</p>
+
+      <div class="book-divider">
+        <div class="book-divider-line"></div>
+        <span class="book-divider-rune">⸻ ✦ ⸻</span>
+        <div class="book-divider-line"></div>
+      </div>
+
+      <p class="book-desc">
+        "Within these pages lies the power to unleash every monster ever imagined.
+        The knights of Knighton must harness NEXO Powers before Jestro and the Book
+        consume the kingdom entire."
+      </p>
+    </div>
+
+    <div class="book-scroll-hint">
+      <span>Turn the Page</span>
+      <div class="book-scroll-line"></div>
     </div>
   </section>
 
-  <!-- CONTENT -->
-  <div class="content-area">
-    <div class="section-header" style="text-align:left; margin-bottom:40px;">
-      <p class="section-eyebrow">Select Episode</p>
-      <h2 class="section-title">All Chapters</h2>
-    </div>
+  <div class="page-turn"><div class="page-turn-line"></div></div>
 
-    <div class="chapters-list" id="chaptersList"></div>
-  </div>
+  <!-- CHAPTERS CONTENT -->
+  <div class="book-content">
+    <p class="book-section-eyebrow">✦ &nbsp; The Chronicles &nbsp; ✦</p>
+    <h2 class="book-section-title">All Chapters</h2>
+    <div id="chaptersList"></div>
 
-  <!-- MUSIC COLLECTION -->
-  <div class="content-area" style="padding-top:0; padding-bottom:80px;">
-    <div class="section-header" style="text-align:left; margin-bottom:40px;">
-      <p class="section-eyebrow">Official Soundtrack</p>
-      <h2 class="section-title">Music Collection</h2>
+    <!-- MUSIC SECTION -->
+    <div class="bom-music-section">
+      <p class="book-section-eyebrow">✦ &nbsp; Incantations &nbsp; ✦</p>
+      <h2 class="book-section-title">Music Collection</h2>
+      <div class="bom-music-grid" id="musicGrid"></div>
     </div>
-    <div class="music-grid" id="musicGrid"></div>
   </div>
 
   <!-- PLAYER MODAL -->
@@ -72,201 +772,176 @@
 
   <script src="scripts/nav.js"></script>
   <script>
-    // =============================================
-    // NEXO KNIGHTS DATA
-    // Replace the driveId values with your actual
-    // Google Drive file IDs for each episode.
-    // Format: https://drive.google.com/file/d/FILE_ID/view
-    // =============================================
+    // ── EMBER PARTICLE SYSTEM ──
+    (function() {
+      const canvas = document.getElementById('emberCanvas');
+      const ctx = canvas.getContext('2d');
+      let W, H, embers = [];
+
+      function resize() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      function Ember() {
+        this.x = Math.random() * W;
+        this.y = H + 10;
+        this.size = 0.8 + Math.random() * 2.5;
+        this.speedY = 0.4 + Math.random() * 1.2;
+        this.speedX = (Math.random() - 0.5) * 0.6;
+        this.life = 1;
+        this.decay = 0.003 + Math.random() * 0.006;
+        this.hue = 15 + Math.random() * 25; // orange-red range
+      }
+
+      function loop() {
+        ctx.clearRect(0, 0, W, H);
+        if (Math.random() < 0.35) embers.push(new Ember());
+        embers = embers.filter(e => e.life > 0);
+        embers.forEach(e => {
+          e.y -= e.speedY;
+          e.x += e.speedX + Math.sin(e.y * 0.02) * 0.3;
+          e.life -= e.decay;
+          ctx.save();
+          ctx.globalAlpha = e.life * 0.7;
+          ctx.beginPath();
+          ctx.arc(e.x, e.y, e.size, 0, Math.PI * 2);
+          ctx.fillStyle = `hsl(${e.hue}, 100%, ${50 + e.life * 30}%)`;
+          ctx.shadowBlur = 6;
+          ctx.shadowColor = `hsl(${e.hue}, 100%, 60%)`;
+          ctx.fill();
+          ctx.restore();
+        });
+        requestAnimationFrame(loop);
+      }
+      loop();
+    })();
+
+    // ── CHAPTER DATA ──
+    const ROMAN = ['I','II','III','IV'];
     const chapters = [
       {
-        number: 1,
-        title: "The Book of Monsters",
+        number: 1, title: "The Book of Monsters",
         parts: [
-          {
-            partNumber: 1,
-            label: "Chapter 1 · Part 1",
-            title: "The Book of Monsters – Part 1",
-            driveId: "1SHofRwqYWnm68iv6CBB5D4pKPLEtsSAh"
-          },
-          {
-            partNumber: 2,
-            label: "Chapter 1 · Part 2",
-            title: "The Book of Monsters – Part 2",
-            driveId: "1g9M_BbIYpn1f3YdT8Jo9bNpi3DOx1FAT"
-          }
+          { label: "Chapter I · Part 1", title: "The Book of Monsters – Part 1", driveId: "1SHofRwqYWnm68iv6CBB5D4pKPLEtsSAh" },
+          { label: "Chapter I · Part 2", title: "The Book of Monsters – Part 2", driveId: "1g9M_BbIYpn1f3YdT8Jo9bNpi3DOx1FAT" }
         ]
       },
       {
-        number: 2,
-        title: "The Knights' Code",
+        number: 2, title: "The Knights' Code",
         parts: [
-          {
-            partNumber: 1,
-            label: "Chapter 2 · Part 1",
-            title: "The Knights' Code – Part 1",
-            driveId: "1rGOeoQk61IaS71jv_BXpaLvz-PgbbwZ4"
-          },
-          {
-            partNumber: 2,
-            label: "Chapter 2 · Part 2",
-            title: "The Knights' Code – Part 2",
-            driveId: "1VJHZ_jAglgj0qB9hYuwOoGA4QZLEliY6"
-          }
+          { label: "Chapter II · Part 1", title: "The Knights' Code – Part 1", driveId: "1rGOeoQk61IaS71jv_BXpaLvz-PgbbwZ4" },
+          { label: "Chapter II · Part 2", title: "The Knights' Code – Part 2", driveId: "1VJHZ_jAglgj0qB9hYuwOoGA4QZLEliY6" }
         ]
       },
       {
-        number: 3,
-        title: "Storm Over Knighton",
+        number: 3, title: "Storm Over Knighton",
         parts: [
-          {
-            partNumber: 1,
-            label: "Chapter 3 · Part 1",
-            title: "Storm Over Knighton – Part 1",
-            driveId: "10vcztvMj17KExgvy3Nd6ikbQnc05KT8s"
-          },
-          {
-            partNumber: 2,
-            label: "Chapter 3 · Part 2",
-            title: "Storm Over Knighton – Part 2",
-            driveId: "1jD7lF1bmNs6eFzVfs5dstdz7s0e3cMav"
-          }
+          { label: "Chapter III · Part 1", title: "Storm Over Knighton – Part 1", driveId: "10vcztvMj17KExgvy3Nd6ikbQnc05KT8s" },
+          { label: "Chapter III · Part 2", title: "Storm Over Knighton – Part 2", driveId: "1jD7lF1bmNs6eFzVfs5dstdz7s0e3cMav" }
         ]
       },
       {
-        number: 4,
-        title: "The Final Battle",
+        number: 4, title: "The Final Battle",
         parts: [
-          {
-            partNumber: 1,
-            label: "Chapter 4 · Part 1",
-            title: "The Final Battle – Part 1",
-            driveId: "1lmNCjnikHMggvhCZvEb2mVbhroeZmhQW"
-          },
-          {
-            partNumber: 2,
-            label: "Chapter 4 · Part 2",
-            title: "The Final Battle – Part 2",
-            driveId: "1mkM2NO15AV9h4Kn3v2cDYIjA2liYQ-rN"
-          }
+          { label: "Chapter IV · Part 1", title: "The Final Battle – Part 1", driveId: "1lmNCjnikHMggvhCZvEb2mVbhroeZmhQW" },
+          { label: "Chapter IV · Part 2", title: "The Final Battle – Part 2", driveId: "1mkM2NO15AV9h4Kn3v2cDYIjA2liYQ-rN" }
         ]
       }
     ];
 
-    // =============================================
-    // BUILD UI
-    // =============================================
+    // ── BUILD CHAPTERS ──
     const list = document.getElementById('chaptersList');
-
-    chapters.forEach((chapter, idx) => {
+    chapters.forEach((ch, idx) => {
       const block = document.createElement('div');
-      block.className = 'chapter-block' + (idx === 0 ? ' open' : '');
+      block.className = 'bom-chapter' + (idx === 0 ? ' open' : '');
       block.innerHTML = `
-        <div class="chapter-header">
-          <div class="chapter-header-left">
-            <div class="chapter-number-badge">${chapter.number}</div>
-            <div class="chapter-info">
-              <h3>Chapter ${chapter.number}: ${chapter.title}</h3>
+        <div class="bom-chapter-header">
+          <div class="bom-chapter-left">
+            <div class="bom-chapter-numeral">${ROMAN[idx]}</div>
+            <div class="bom-chapter-info">
+              <h3>Chapter ${ROMAN[idx]}: ${ch.title}</h3>
               <p>2 Parts · Remastered</p>
             </div>
           </div>
-          <div class="chapter-chevron">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          <div class="bom-chevron">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
         </div>
-        <div class="chapter-episodes">
-          ${chapter.parts.map(part => `
-            <div class="episode-card" data-id="${part.driveId}" data-title="${part.title}">
-              <div class="episode-play-btn">
-                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <div class="bom-episodes">
+          ${ch.parts.map(p => `
+            <div class="bom-ep-card" data-id="${p.driveId}" data-title="${p.title}">
+              <div class="bom-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+              <div class="bom-ep-info">
+                <div class="bom-ep-label">${p.label}</div>
+                <div class="bom-ep-title">${p.title}</div>
               </div>
-              <div class="episode-info">
-                <div class="episode-label">${part.label}</div>
-                <div class="episode-title">${part.title}</div>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      `;
+            </div>`).join('')}
+        </div>`;
       list.appendChild(block);
     });
 
-    // =============================================
-    // ACCORDION
-    // =============================================
-    document.querySelectorAll('.chapter-header').forEach(header => {
-      header.addEventListener('click', () => {
-        const block = header.closest('.chapter-block');
+    // ── ACCORDION ──
+    document.querySelectorAll('.bom-chapter-header').forEach(h => {
+      h.addEventListener('click', () => {
+        const block = h.closest('.bom-chapter');
         const isOpen = block.classList.contains('open');
-        document.querySelectorAll('.chapter-block').forEach(b => b.classList.remove('open'));
+        document.querySelectorAll('.bom-chapter').forEach(b => b.classList.remove('open'));
         if (!isOpen) block.classList.add('open');
       });
     });
 
-    // =============================================
-    // PLAYER
-    // =============================================
-    const modal = document.getElementById('playerModal');
-    const frame = document.getElementById('playerFrame');
-    const titleEl = document.getElementById('playerTitle');
-    const closeBtn = document.getElementById('playerClose');
+    // ── MUSIC ──
+    const musicTracks = [
+      { title: "Monstrox Reborns",  subtitle: "Theme Music", driveId: "1B7SkOR0eO3CqdvBxE8DzzlXVkckN7qof", icon: "🔥" },
+      { title: "The Final Battle",  subtitle: "Theme Music", driveId: "1M7qE9d45dX_DJhv4WTCZiOyUo53jrPxp", icon: "⚔️" },
+      { title: "The Gray Knight",   subtitle: "Theme Music", driveId: "17OGPzwxaxzrs_6lY7cu-LxZEA_WRtB7b", icon: "🛡️" },
+      { title: "The Showdown",      subtitle: "Theme Music", driveId: "1dYsRnfwlTGScLeveor9p_ii_htU1_Nsd", icon: "⚡" }
+    ];
+    const musicGrid = document.getElementById('musicGrid');
+    musicTracks.forEach(t => {
+      const card = document.createElement('div');
+      card.className = 'bom-music-card';
+      card.innerHTML = `
+        <div class="bom-music-rune">${t.icon}</div>
+        <div class="bom-music-info">
+          <div class="bom-music-title">${t.title}</div>
+          <div class="bom-music-sub">${t.subtitle}</div>
+        </div>
+        <div class="bom-music-play">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </div>`;
+      card.addEventListener('click', () => openPlayer(t.driveId, `${t.title} – ${t.subtitle}`));
+      musicGrid.appendChild(card);
+    });
 
-    function openPlayer(driveId, title) {
-      // Convert Google Drive share link to embed link
-      const embedUrl = `https://drive.google.com/file/d/${driveId}/preview`;
-      frame.src = embedUrl;
+    // ── PLAYER ──
+    const modal   = document.getElementById('playerModal');
+    const frame   = document.getElementById('playerFrame');
+    const titleEl = document.getElementById('playerTitle');
+    const closeBtn= document.getElementById('playerClose');
+
+    function openPlayer(id, title) {
+      frame.src = `https://drive.google.com/file/d/${id}/preview`;
       titleEl.textContent = title;
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
     }
-
     function closePlayer() {
       modal.classList.remove('open');
       frame.src = '';
       document.body.style.overflow = '';
     }
 
-    document.querySelectorAll('.episode-card').forEach(card => {
-      card.addEventListener('click', () => {
-        const id = card.dataset.id;
-        const title = card.dataset.title;
-        if (id === 'YOUR_DRIVE_FILE_ID_HERE') {
-          alert('Video not linked yet. Replace YOUR_DRIVE_FILE_ID_HERE in nexo.html with your Google Drive file ID.');
-          return;
-        }
-        openPlayer(id, title);
-      });
+    document.addEventListener('click', e => {
+      const card = e.target.closest('.bom-ep-card');
+      if (card) openPlayer(card.dataset.id, card.dataset.title);
     });
-
     closeBtn.addEventListener('click', closePlayer);
-    modal.addEventListener('click', (e) => { if (e.target === modal) closePlayer(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePlayer(); });
+    modal.addEventListener('click', e => { if (e.target === modal) closePlayer(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closePlayer(); });
   </script>
 </body>
 </html>
-<script>
-    // MUSIC COLLECTION DATA
-    const musicTracks = [
-      { title: "Monstrox Reborns", subtitle: "Theme Music", driveId: "1B7SkOR0eO3CqdvBxE8DzzlXVkckN7qof", icon: "🔥" },
-      { title: "The Final Battle", subtitle: "Theme Music", driveId: "1M7qE9d45dX_DJhv4WTCZiOyUo53jrPxp", icon: "⚔️" },
-      { title: "The Gray Knight", subtitle: "Theme Music", driveId: "17OGPzwxaxzrs_6lY7cu-LxZEA_WRtB7b", icon: "🛡️" },
-      { title: "The Showdown", subtitle: "Theme Music", driveId: "1dYsRnfwlTGScLeveor9p_ii_htU1_Nsd", icon: "⚡" }
-    ];
-    const musicGrid = document.getElementById('musicGrid');
-    musicTracks.forEach(track => {
-      const card = document.createElement('div');
-      card.className = 'music-card';
-      card.innerHTML = `
-        <div class="music-icon">${track.icon}</div>
-        <div class="music-info">
-          <div class="music-title">${track.title}</div>
-          <div class="music-subtitle">${track.subtitle}</div>
-        </div>
-        <div class="music-play-btn">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-      `;
-      card.addEventListener('click', () => openPlayer(track.driveId, `${track.title} – ${track.subtitle}`));
-      musicGrid.appendChild(card);
-    });
-</script>
