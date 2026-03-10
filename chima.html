@@ -28,8 +28,10 @@
   <!-- HERO -->
   <!-- HERO — Smash-style CHI split screen -->
   <section class="chima-intro" id="chimaIntro">
+    <!-- Single image spans full width, clipped by each half -->
+    <img class="ci-bg-img" id="ciBgImg" src="chima-hero.png" alt=""/>
+
     <div class="ci-half ci-left">
-      <div class="ci-img"></div>
       <div class="ci-atmo ci-atmo-left"></div>
       <div class="ci-sparks" id="sparksLeft"></div>
       <div class="ci-name ci-name-left">
@@ -38,7 +40,6 @@
       </div>
     </div>
     <div class="ci-half ci-right">
-      <div class="ci-img"></div>
       <div class="ci-atmo ci-atmo-right"></div>
       <div class="ci-sparks" id="sparksRight"></div>
       <div class="ci-name ci-name-right">
@@ -246,18 +247,23 @@
 
     .ci-half { position: relative; width: 50%; height: 100%; overflow: hidden; }
 
-    .ci-img {
-      position: absolute; inset: 0;
-      background-image: url('chima-hero.png');
-      background-size: 200% 100%;
-      background-repeat: no-repeat;
-      background-position: 0% center;
+    /* Single image: absolutely positioned, full width of the section,
+       each .ci-half clips to its own 50% — image never stretches */
+    .ci-bg-img {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      z-index: 0;
       transition: filter 0.7s ease;
       filter: brightness(0.45) saturate(0.3);
+      pointer-events: none;
     }
-    .ci-right .ci-img { background-position: 100% center; }
-    .ci-revealed .ci-left  .ci-img { filter: brightness(1.05) saturate(1.15); }
-    .ci-revealed .ci-right .ci-img { filter: brightness(1.05) saturate(1.15); }
+    .ci-revealed .ci-bg-img { filter: brightness(1.05) saturate(1.15); }
+
+    /* halves sit on top and clip via overflow:hidden */
+    .ci-half { z-index: 1; }
 
     .ci-atmo {
       position: absolute; inset: 0; opacity: 0;
