@@ -45,6 +45,15 @@
     <div class="chapters-list" id="chaptersList"></div>
   </div>
 
+  <!-- MUSIC COLLECTION -->
+  <div class="content-area" style="padding-top:0; padding-bottom:80px;">
+    <div class="section-header" style="text-align:left; margin-bottom:40px;">
+      <p class="section-eyebrow">Official Soundtrack</p>
+      <h2 class="section-title">Music Collection</h2>
+    </div>
+    <div class="music-grid" id="musicGrid"></div>
+  </div>
+
   <!-- PLAYER MODAL -->
   <div class="player-modal" id="playerModal">
     <div class="player-inner">
@@ -78,13 +87,13 @@
             partNumber: 1,
             label: "Chapter 1 · Part 1",
             title: "The Book of Monsters – Part 1",
-            driveId: "YOUR_DRIVE_FILE_ID_HERE"
+            driveId: "1SHofRwqYWnm68iv6CBB5D4pKPLEtsSAh"
           },
           {
             partNumber: 2,
             label: "Chapter 1 · Part 2",
             title: "The Book of Monsters – Part 2",
-            driveId: "YOUR_DRIVE_FILE_ID_HERE"
+            driveId: "1g9M_BbIYpn1f3YdT8Jo9bNpi3DOx1FAT"
           }
         ]
       },
@@ -96,13 +105,13 @@
             partNumber: 1,
             label: "Chapter 2 · Part 1",
             title: "The Knights' Code – Part 1",
-            driveId: "YOUR_DRIVE_FILE_ID_HERE"
+            driveId: "1rGOeoQk61IaS71jv_BXpaLvz-PgbbwZ4"
           },
           {
             partNumber: 2,
             label: "Chapter 2 · Part 2",
             title: "The Knights' Code – Part 2",
-            driveId: "YOUR_DRIVE_FILE_ID_HERE"
+            driveId: "1VJHZ_jAglgj0qB9hYuwOoGA4QZLEliY6"
           }
         ]
       },
@@ -114,13 +123,13 @@
             partNumber: 1,
             label: "Chapter 3 · Part 1",
             title: "Storm Over Knighton – Part 1",
-            driveId: "YOUR_DRIVE_FILE_ID_HERE"
+            driveId: "10vcztvMj17KExgvy3Nd6ikbQnc05KT8s"
           },
           {
             partNumber: 2,
             label: "Chapter 3 · Part 2",
             title: "Storm Over Knighton – Part 2",
-            driveId: "YOUR_DRIVE_FILE_ID_HERE"
+            driveId: "1jD7lF1bmNs6eFzVfs5dstdz7s0e3cMav"
           }
         ]
       },
@@ -132,13 +141,13 @@
             partNumber: 1,
             label: "Chapter 4 · Part 1",
             title: "The Final Battle – Part 1",
-            driveId: "YOUR_DRIVE_FILE_ID_HERE"
+            driveId: "1lmNCjnikHMggvhCZvEb2mVbhroeZmhQW"
           },
           {
             partNumber: 2,
             label: "Chapter 4 · Part 2",
             title: "The Final Battle – Part 2",
-            driveId: "YOUR_DRIVE_FILE_ID_HERE"
+            driveId: "1mkM2NO15AV9h4Kn3v2cDYIjA2liYQ-rN"
           }
         ]
       }
@@ -235,3 +244,29 @@
   </script>
 </body>
 </html>
+<script>
+    // MUSIC COLLECTION DATA
+    const musicTracks = [
+      { title: "Monstrox Reborns", subtitle: "Theme Music", driveId: "1B7SkOR0eO3CqdvBxE8DzzlXVkckN7qof", icon: "🔥" },
+      { title: "The Final Battle", subtitle: "Theme Music", driveId: "1M7qE9d45dX_DJhv4WTCZiOyUo53jrPxp", icon: "⚔️" },
+      { title: "The Gray Knight", subtitle: "Theme Music", driveId: "17OGPzwxaxzrs_6lY7cu-LxZEA_WRtB7b", icon: "🛡️" },
+      { title: "The Showdown", subtitle: "Theme Music", driveId: "1dYsRnfwlTGScLeveor9p_ii_htU1_Nsd", icon: "⚡" }
+    ];
+    const musicGrid = document.getElementById('musicGrid');
+    musicTracks.forEach(track => {
+      const card = document.createElement('div');
+      card.className = 'music-card';
+      card.innerHTML = `
+        <div class="music-icon">${track.icon}</div>
+        <div class="music-info">
+          <div class="music-title">${track.title}</div>
+          <div class="music-subtitle">${track.subtitle}</div>
+        </div>
+        <div class="music-play-btn">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+      `;
+      card.addEventListener('click', () => openPlayer(track.driveId, `${track.title} – ${track.subtitle}`));
+      musicGrid.appendChild(card);
+    });
+</script>
