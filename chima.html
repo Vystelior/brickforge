@@ -117,8 +117,8 @@
     <!-- CONTENT -->
   <div class="content-area">
     <div class="section-header" style="text-align:left; margin-bottom:40px;">
-      <p class="section-eyebrow">Select Episode</p>
-      <h2 class="section-title">All Seasons</h2>
+      <p class="section-eyebrow">Legends of Chima · 3 Seasons</p>
+      <h2 class="section-title">All Episodes</h2>
     </div>
 
     <div class="chapters-list" id="seasonsList"></div>
@@ -142,81 +142,75 @@
 
   <script src="scripts/nav.js"></script>
   <script>
-    // =============================================
-    // LEGENDS OF CHIMA DATA
-    // Add your seasons and episodes below.
-    // Replace driveId values with your actual
-    // Google Drive file IDs.
-    // Format: https://drive.google.com/file/d/FILE_ID/view
-    // =============================================
+    const COMING_SOON_FOLDER = "https://drive.google.com/drive/folders/1KjkepF74yL11zLR1XCc-2WvOJMWMpXJX";
+
     const seasons = [
       {
         number: 1,
         title: "The Power of CHI",
         episodes: [
-          { ep: 1, title: "A Tangled Web", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
-          { ep: 2, title: "The Legend of Chima", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
-          { ep: 3, title: "The Warrior Within", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
-          { ep: 4, title: "The Joyride", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
-          { ep: 5, title: "Market Day", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
-          { ep: 6, title: "Attack on Eagle Spire", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
-          { ep: 7, title: "The Hundred Year Moon", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
-          { ep: 8, title: "The Fake Chi Fall", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
-          { ep: 9, title: "Gorilla My Dreams", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
-          { ep: 10, title: "The Void", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 1,  title: "A Tangled Web",          driveId: "1MlzeZx-08vZvH1HXDoZes0y9BCO8DhIJ" },
+          { ep: 2,  title: "The Legend of Chima",     driveId: "1dYM-ir0iKvCHRhRoGD82LcdgsbA0UWF3" },
+          { ep: 3,  title: "The Warrior Within",      driveId: "13yq0ULyCD_TyLN_XXSRER-3dDrOulE5C" },
+          { ep: 4,  title: "The Joyride",             driveId: "1UOD4OiGuSIm0WuuZ6SDeLyHhRMQ4dWaS" },
+          { ep: 5,  title: "Market Day",              driveId: "1szaQmmCO9HIfRc2hYWY0tomEcyyXfdyQ" },
+          { ep: 6,  title: "Attack on Eagle Spire",   driveId: "1ivHY3LZ3-jlEDTUNl28_gkAac7VzIEXB" },
+          { ep: 7,  title: "The Hundred Year Moon",   driveId: "1Bg9Z_3ZKRKvw4Bhc-yYQH6O-DWiBXcis" },
+          { ep: 8,  title: "The Fake Chi Fall",       driveId: "11KazQEt9VoR9kSS1ZxSfMlp6KIyrfcn2" },
+          { ep: 9,  title: "Gorilla My Dreams",       driveId: "1i8jhBFf7QJMOwfyc0Ecv88YeXvMTc0kh" },
+          { ep: 10, title: "The Void",                driveId: "1ACtdivs8CQEIIl-ELFpD54-kIdrLlWaj" },
+          { ep: 11, title: "The Crescent",            driveId: "1l1Wcnkeg0jE4uIvvxStcCyngAsHs7oiI" },
+          { ep: 12, title: "Invasion from Below",     driveId: "1IWMo0_62RT8rStIwMLXhwnouZSWYTPMa" },
+          { ep: 13, title: "Ravens vs Eagles",        driveId: "1riokEU9DJfqsz9Hvy0ZpSGQ6tABeIat1" },
+          { ep: 14, title: "Gorilla My Dreams II",    driveId: "1vnVTXuNDRsb70yZxYwj_JzKpeFMHm3dO" },
+          { ep: 15, title: "The Chi Jackers",         driveId: "1vhHOq9WEolB-Ly6fWXXr4P5KAv68hic8" },
+          { ep: 16, title: "Balancing Act",           driveId: "1jnIiSat_4-7qYbzYS8Z9HC0CPc49_ej9" },
+          { ep: 17, title: "Laval in Exile",          driveId: "1cY2UT0DP3F0qUUqYJWwYVv_ZejGb3UF9" },
+          { ep: 18, title: "The Black Cloud",         driveId: "1laGA1IwaGux9SWAr4npoSApw00i9HvHY" },
+          { ep: 19, title: "Into the Outlands",       driveId: "1-IHPKUHnnXCHc7sJSSsgwF03LXuvEirJ" },
+          { ep: 20, title: "The Saber-Tooth Tiger",   driveId: "1r79m4h-mOdsxtoeUvI8-nahUImuW_W0S" },
         ]
       },
       {
         number: 2,
         title: "The Great Story",
         episodes: [
-          { ep: 1, title: "Into the Outlands", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
-          { ep: 2, title: "A Tangled Web", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
-          { ep: 3, title: "The CHI Jackers", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
-          { ep: 4, title: "Tribes of Chima", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
-          { ep: 5, title: "Laval in Exile", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
-          { ep: 6, title: "The Black Cloud", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
-          { ep: 7, title: "Balancing Act", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
-          { ep: 8, title: "The Crescent", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 1, title: "Fire Dreaming",              driveId: null },
+          { ep: 2, title: "The Legend of the Fire Chi", driveId: null },
+          { ep: 3, title: "The Phoenix Has Landed",     driveId: null },
+          { ep: 4, title: "A Spark of Hope",            driveId: null },
+          { ep: 5, title: "Wings of Fire",              driveId: null },
+          { ep: 6, title: "The Heart of Cavora",        driveId: null },
         ]
       },
       {
         number: 3,
         title: "The Fire & Ice Tribes",
         episodes: [
-          { ep: 1, title: "Fire Dreaming", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
-          { ep: 2, title: "The Legend of the Fire Chi", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
-          { ep: 3, title: "The Phoenix Has Landed", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
-          { ep: 4, title: "A Spark of Hope", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
-          { ep: 5, title: "Wings of Fire", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
-          { ep: 6, title: "The Heart of Cavora", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 1, title: "The Call of Cavora",         driveId: null },
+          { ep: 2, title: "Trial by Fire",              driveId: null },
+          { ep: 3, title: "A Spark of Hope",            driveId: null },
+          { ep: 4, title: "Wings of Fire",              driveId: null },
+          { ep: 5, title: "The Heart of Cavora",        driveId: null },
+          { ep: 6, title: "The Ultimate Challenge",     driveId: null },
         ]
       }
     ];
 
-    // =============================================
-    // BUILD UI
-    // =============================================
+    // ── BUILD UI ──
     const list = document.getElementById('seasonsList');
 
     seasons.forEach((season, idx) => {
+      const available = season.episodes.filter(e => e.driveId).length;
+      const total     = season.episodes.length;
+      const allMissing = available === 0;
+
       const block = document.createElement('div');
       block.className = 'chapter-block' + (idx === 0 ? ' open' : '');
-      block.innerHTML = `
-        <div class="chapter-header">
-          <div class="chapter-header-left">
-            <div class="chapter-number-badge">${season.number}</div>
-            <div class="chapter-info">
-              <h3>Season ${season.number}: ${season.title}</h3>
-              <p>${season.episodes.length} Episodes</p>
-            </div>
-          </div>
-          <div class="chapter-chevron">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </div>
-        </div>
-        <div class="chapter-episodes">
-          ${season.episodes.map(ep => `
+
+      const episodeCards = season.episodes.map(ep => {
+        if (ep.driveId) {
+          return `
             <div class="episode-card" data-id="${ep.driveId}" data-title="S${season.number} E${ep.ep}: ${ep.title}">
               <div class="episode-play-btn">
                 <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -225,16 +219,60 @@
                 <div class="episode-label">Season ${season.number} · Episode ${ep.ep}</div>
                 <div class="episode-title">${ep.title}</div>
               </div>
+            </div>`;
+        } else {
+          return `
+            <div class="episode-card episode-card--soon">
+              <div class="episode-play-btn episode-play-btn--soon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              </div>
+              <div class="episode-info">
+                <div class="episode-label">Season ${season.number} · Episode ${ep.ep}</div>
+                <div class="episode-title">${ep.title}</div>
+                <div class="episode-coming-soon">Coming soon</div>
+              </div>
+            </div>`;
+        }
+      }).join('');
+
+      const comingSoonBanner = allMissing ? `
+        <div class="season-coming-banner">
+          <div class="scb-icon">⏳</div>
+          <div class="scb-text">
+            <strong>Episodes coming soon</strong>
+            <span>More episodes are being added regularly. <a href="${COMING_SOON_FOLDER}" target="_blank" rel="noopener">Browse available files on Google Drive</a></span>
+          </div>
+        </div>` : (available < total ? `
+        <div class="season-coming-banner season-coming-banner--partial">
+          <div class="scb-icon">📺</div>
+          <div class="scb-text">
+            <strong>${total - available} more episode${total - available !== 1 ? 's' : ''} coming soon</strong>
+            <span>Additional episodes are being added. <a href="${COMING_SOON_FOLDER}" target="_blank" rel="noopener">Browse available files on Google Drive</a></span>
+          </div>
+        </div>` : '');
+
+      block.innerHTML = `
+        <div class="chapter-header">
+          <div class="chapter-header-left">
+            <div class="chapter-number-badge">${season.number}</div>
+            <div class="chapter-info">
+              <h3>Season ${season.number}: ${season.title}</h3>
+              <p>${available} of ${total} Episodes Available</p>
             </div>
-          `).join('')}
+          </div>
+          <div class="chapter-chevron">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="chapter-episodes">
+          ${episodeCards}
+          ${comingSoonBanner}
         </div>
       `;
       list.appendChild(block);
     });
 
-    // =============================================
-    // ACCORDION
-    // =============================================
+    // ── ACCORDION ──
     document.querySelectorAll('.chapter-header').forEach(header => {
       header.addEventListener('click', () => {
         const block = header.closest('.chapter-block');
@@ -244,44 +282,93 @@
       });
     });
 
-    // =============================================
-    // PLAYER
-    // =============================================
-    const modal = document.getElementById('playerModal');
-    const frame = document.getElementById('playerFrame');
-    const titleEl = document.getElementById('playerTitle');
+    // ── PLAYER ──
+    const modal    = document.getElementById('playerModal');
+    const frame    = document.getElementById('playerFrame');
+    const titleEl  = document.getElementById('playerTitle');
     const closeBtn = document.getElementById('playerClose');
 
     function openPlayer(driveId, title) {
-      const embedUrl = `https://drive.google.com/file/d/${driveId}/preview`;
-      frame.src = embedUrl;
+      frame.src = `https://drive.google.com/file/d/${driveId}/preview`;
       titleEl.textContent = title;
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
     }
-
     function closePlayer() {
       modal.classList.remove('open');
       frame.src = '';
       document.body.style.overflow = '';
     }
 
-    document.querySelectorAll('.episode-card').forEach(card => {
-      card.addEventListener('click', () => {
-        const id = card.dataset.id;
-        const title = card.dataset.title;
-        if (id === 'YOUR_DRIVE_FILE_ID_HERE') {
-          alert('Video not linked yet. Replace YOUR_DRIVE_FILE_ID_HERE in chima.html with your Google Drive file ID.');
-          return;
-        }
-        openPlayer(id, title);
-      });
+    document.addEventListener('click', e => {
+      const card = e.target.closest('.episode-card');
+      if (!card || card.classList.contains('episode-card--soon')) return;
+      openPlayer(card.dataset.id, card.dataset.title);
     });
 
     closeBtn.addEventListener('click', closePlayer);
-    modal.addEventListener('click', (e) => { if (e.target === modal) closePlayer(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePlayer(); });
+    modal.addEventListener('click', e => { if (e.target === modal) closePlayer(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closePlayer(); });
   </script>
+
+  <style>
+    /* ── Coming soon episode cards ── */
+    .episode-card--soon {
+      opacity: 0.45;
+      cursor: default;
+      pointer-events: none;
+    }
+    .episode-play-btn--soon {
+      background: rgba(255,255,255,0.06) !important;
+      box-shadow: none !important;
+    }
+    .episode-coming-soon {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--chima-amber-bright, #FF9800);
+      margin-top: 4px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+    }
+
+    /* ── Coming soon season banner ── */
+    .season-coming-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 16px 0 8px;
+      padding: 16px 20px;
+      background: rgba(255,152,0,0.07);
+      border: 1px solid rgba(255,152,0,0.2);
+      border-radius: 10px;
+    }
+    .season-coming-banner--partial {
+      background: rgba(100,200,255,0.06);
+      border-color: rgba(100,200,255,0.18);
+    }
+    .scb-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+    .scb-text { display: flex; flex-direction: column; gap: 4px; }
+    .scb-text strong {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.9);
+      letter-spacing: 0.04em;
+    }
+    .scb-text span {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+    }
+    .scb-text a {
+      color: var(--chima-amber-bright, #FF9800);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,152,0,0.3);
+      transition: border-color 0.2s;
+    }
+    .scb-text a:hover { border-color: rgba(255,152,0,0.8); }
+  </style>
 
   
 

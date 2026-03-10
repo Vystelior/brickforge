@@ -1047,3 +1047,100 @@ img { display: block; max-width: 100%; }
 @media (max-width: 600px) {
   .music-grid { grid-template-columns: 1fr; }
 }
+
+/* ═══════════════════════════════════════
+   IMPROVEMENTS — added for v2
+═══════════════════════════════════════ */
+
+/* Smoother scrolling */
+html { scroll-behavior: smooth; }
+
+/* Better episode card hover */
+.episode-card {
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+.episode-card:hover {
+  transform: translateX(4px);
+}
+
+/* Episode number styling */
+.episode-label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-bottom: 3px;
+}
+
+/* Chapter block subtle entrance animation */
+.chapter-block {
+  animation: blockFadeIn 0.4s ease both;
+}
+@keyframes blockFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Better open chapter highlight */
+.chapter-block.open {
+  border-color: rgba(255,255,255,0.1);
+}
+
+/* Player modal backdrop blur */
+.player-modal {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Improved player inner */
+.player-inner {
+  box-shadow: 0 32px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.06);
+}
+
+/* Nav scroll shadow */
+.nav.scrolled {
+  box-shadow: 0 4px 32px rgba(0,0,0,0.5);
+  background: rgba(10,10,10,0.98);
+}
+
+/* Better section header spacing */
+.section-header { animation: blockFadeIn 0.5s ease 0.1s both; }
+
+/* Show card hover lift */
+.show-card {
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
+}
+.show-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+}
+
+/* Hero orbs breathing */
+.hero-orb {
+  animation: orbBreathe 6s ease-in-out infinite;
+}
+.hero-orb-2 { animation-delay: -2s; }
+.hero-orb-3 { animation-delay: -4s; }
+@keyframes orbBreathe {
+  0%,100% { opacity: 0.6; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.08); }
+}
+
+/* Chima hero split: smooth image reveal on load */
+.chima-hero-split .chs-img {
+  animation: imgReveal 1s ease 0.1s both;
+}
+@keyframes imgReveal {
+  from { opacity: 0; transform: scale(1.03); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Footer improvement */
+.footer {
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Nexo music cards hover */
+.music-card:hover .music-title {
+  color: var(--nexo-blue-bright);
+}
