@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Legends of Chima — BrickForge</title>
+  <link rel="stylesheet" href="styles/global.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+</head>
+<body class="chima-page">
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-brick">&#9632;</span>
+      <span class="logo-text">BRICK<span class="logo-accent">VAULT</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="nexo.html" class="nav-link">Nexo Knights</a>
+      <a href="chima.html" class="nav-link active">Legends of Chima</a>
+    </div>
+    <div class="nav-hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="show-hero">
+    <div class="show-hero-bg"></div>
+    <div class="show-hero-content">
+      <p class="show-hero-eyebrow">Legends of Chima</p>
+      <h1 class="show-hero-title">LEGENDS<br/>OF <span>CHIMA</span></h1>
+      <p class="show-hero-desc">In the mystical land of Chima, tribes of animals battle for CHI — a magical energy source at the heart of all life. Laval of the Lions must unite his friends and face ancient evils before Chima is lost forever.</p>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <div class="content-area">
+    <div class="section-header" style="text-align:left; margin-bottom:40px;">
+      <p class="section-eyebrow">Select Episode</p>
+      <h2 class="section-title">All Seasons</h2>
+    </div>
+
+    <div class="chapters-list" id="seasonsList"></div>
+  </div>
+
+  <!-- PLAYER MODAL -->
+  <div class="player-modal" id="playerModal">
+    <div class="player-inner">
+      <div class="player-topbar">
+        <span class="player-episode-name" id="playerTitle">Episode</span>
+        <button class="player-close" id="playerClose" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="player-frame-wrap">
+        <iframe id="playerFrame" allow="autoplay; fullscreen" allowfullscreen></iframe>
+      </div>
+      <p class="player-notice">If the video doesn't load, make sure the Google Drive file is shared publicly.</p>
+    </div>
+  </div>
+
+  <script src="scripts/nav.js"></script>
+  <script>
+    // =============================================
+    // LEGENDS OF CHIMA DATA
+    // Add your seasons and episodes below.
+    // Replace driveId values with your actual
+    // Google Drive file IDs.
+    // Format: https://drive.google.com/file/d/FILE_ID/view
+    // =============================================
+    const seasons = [
+      {
+        number: 1,
+        title: "The Power of CHI",
+        episodes: [
+          { ep: 1, title: "A Tangled Web", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 2, title: "The Legend of Chima", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 3, title: "The Warrior Within", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 4, title: "The Joyride", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 5, title: "Market Day", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 6, title: "Attack on Eagle Spire", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 7, title: "The Hundred Year Moon", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 8, title: "The Fake Chi Fall", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 9, title: "Gorilla My Dreams", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 10, title: "The Void", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+        ]
+      },
+      {
+        number: 2,
+        title: "The Great Story",
+        episodes: [
+          { ep: 1, title: "Into the Outlands", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 2, title: "A Tangled Web", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 3, title: "The CHI Jackers", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 4, title: "Tribes of Chima", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 5, title: "Laval in Exile", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 6, title: "The Black Cloud", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 7, title: "Balancing Act", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 8, title: "The Crescent", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+        ]
+      },
+      {
+        number: 3,
+        title: "The Fire & Ice Tribes",
+        episodes: [
+          { ep: 1, title: "Fire Dreaming", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 2, title: "The Legend of the Fire Chi", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 3, title: "The Phoenix Has Landed", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 4, title: "A Spark of Hope", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 5, title: "Wings of Fire", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+          { ep: 6, title: "The Heart of Cavora", driveId: "YOUR_DRIVE_FILE_ID_HERE" },
+        ]
+      }
+    ];
+
+    // =============================================
+    // BUILD UI
+    // =============================================
+    const list = document.getElementById('seasonsList');
+
+    seasons.forEach((season, idx) => {
+      const block = document.createElement('div');
+      block.className = 'chapter-block' + (idx === 0 ? ' open' : '');
+      block.innerHTML = `
+        <div class="chapter-header">
+          <div class="chapter-header-left">
+            <div class="chapter-number-badge">${season.number}</div>
+            <div class="chapter-info">
+              <h3>Season ${season.number}: ${season.title}</h3>
+              <p>${season.episodes.length} Episodes</p>
+            </div>
+          </div>
+          <div class="chapter-chevron">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="chapter-episodes">
+          ${season.episodes.map(ep => `
+            <div class="episode-card" data-id="${ep.driveId}" data-title="S${season.number} E${ep.ep}: ${ep.title}">
+              <div class="episode-play-btn">
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+              <div class="episode-info">
+                <div class="episode-label">Season ${season.number} · Episode ${ep.ep}</div>
+                <div class="episode-title">${ep.title}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      list.appendChild(block);
+    });
+
+    // =============================================
+    // ACCORDION
+    // =============================================
+    document.querySelectorAll('.chapter-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const block = header.closest('.chapter-block');
+        const isOpen = block.classList.contains('open');
+        document.querySelectorAll('.chapter-block').forEach(b => b.classList.remove('open'));
+        if (!isOpen) block.classList.add('open');
+      });
+    });
+
+    // =============================================
+    // PLAYER
+    // =============================================
+    const modal = document.getElementById('playerModal');
+    const frame = document.getElementById('playerFrame');
+    const titleEl = document.getElementById('playerTitle');
+    const closeBtn = document.getElementById('playerClose');
+
+    function openPlayer(driveId, title) {
+      const embedUrl = `https://drive.google.com/file/d/${driveId}/preview`;
+      frame.src = embedUrl;
+      titleEl.textContent = title;
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePlayer() {
+      modal.classList.remove('open');
+      frame.src = '';
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.episode-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const id = card.dataset.id;
+        const title = card.dataset.title;
+        if (id === 'YOUR_DRIVE_FILE_ID_HERE') {
+          alert('Video not linked yet. Replace YOUR_DRIVE_FILE_ID_HERE in chima.html with your Google Drive file ID.');
+          return;
+        }
+        openPlayer(id, title);
+      });
+    });
+
+    closeBtn.addEventListener('click', closePlayer);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closePlayer(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePlayer(); });
+  </script>
+</body>
+</html>
