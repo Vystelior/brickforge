@@ -613,6 +613,224 @@
       .bom-episodes { padding: 0 16px 20px; }
       .book-hero-content { padding: 120px 20px 60px; }
     }
+
+    /* ═══════════════════════════════════════════════
+       CHAPTER THEMES — body switches per open chapter
+    ═══════════════════════════════════════════════
+
+    Ch 1 — The Book of Monsters  : fire / cursed tome (default, no attr needed)
+    Ch 2 — The Knights' Code     : noble sapphire / silver heraldic
+    Ch 3 — Storm Over Knighton   : electric violet / lightning
+    Ch 4 — The Final Battle      : deep crimson / apocalyptic gold
+    */
+
+    /* ── Theme transition on everything that colour-touches ── */
+    body.nexo-page,
+    body.nexo-page::before,
+    body.nexo-page::after,
+    .nav, .book-hero-fire, .book-title, .book-section-title,
+    .bom-chapter-numeral, .bom-ep-card, .bom-play,
+    .bom-music-card, .bom-music-play,
+    .player-inner, .player-topbar,
+    .book-divider-line, .book-scroll-line,
+    .page-turn-line, .bom-chapter::before { transition: all 0.7s ease; }
+
+    /* ════════════════════
+       CHAPTER 2 — THE KNIGHTS' CODE
+       Noble sapphire, silver shield, clean heraldic blue
+    ════════════════════ */
+    body[data-chapter="2"] {
+      background: #020814 !important;
+      color: #b8cfe8;
+    }
+    body[data-chapter="2"]::before {
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 6px),
+        radial-gradient(ellipse 120% 80% at 50% 0%, rgba(30,80,200,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 60% at 50% 100%, rgba(20,60,160,0.18) 0%, transparent 50%),
+        #020814 !important;
+    }
+    body[data-chapter="2"]::after { background: linear-gradient(to right, #000814, #0a1a40 30%, #000814 70%, #00060f) !important; }
+    body[data-chapter="2"] .nav {
+      background: linear-gradient(to bottom, #040e24, #020814) !important;
+      border-bottom-color: #1e4fa8 !important;
+      box-shadow: 0 4px 30px rgba(30,80,200,0.3), inset 0 -1px 0 rgba(60,120,255,0.2) !important;
+    }
+    body[data-chapter="2"] .nav::before { content: '✦  CODEX MILITUM  ✦'; color: rgba(80,140,255,0.35) !important; }
+    body[data-chapter="2"] .book-hero-fire {
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 50%, rgba(20,60,200,0.22) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 30% at 50% 45%, rgba(40,100,255,0.15) 0%, transparent 50%) !important;
+    }
+    body[data-chapter="2"] .book-title {
+      color: #6aaeff !important;
+      text-shadow: 0 0 30px rgba(60,120,255,0.6), 0 0 60px rgba(30,80,200,0.4), 0 0 100px rgba(10,40,150,0.3), 2px 4px 0 rgba(0,0,0,0.8) !important;
+    }
+    body[data-chapter="2"] .book-section-title { color: #a0c8ff !important; text-shadow: 0 0 20px rgba(60,120,255,0.3), 2px 3px 0 rgba(0,0,0,0.7) !important; }
+    body[data-chapter="2"] .book-tome-label,
+    body[data-chapter="2"] .book-section-eyebrow { color: #4a90d9 !important; }
+    body[data-chapter="2"] .book-desc { color: #8ab4d8 !important; }
+    body[data-chapter="2"] .book-divider-line { background: linear-gradient(to right, transparent, #1e4fa8, transparent) !important; }
+    body[data-chapter="2"] .book-divider-rune { color: #4a90d9 !important; }
+    body[data-chapter="2"] .book-scroll-line { background: linear-gradient(to bottom, #1e4fa8, transparent) !important; }
+    body[data-chapter="2"] .page-turn-line { background: linear-gradient(to right, transparent, rgba(30,80,200,0.2) 20%, rgba(30,80,200,0.5) 50%, rgba(30,80,200,0.2) 80%, transparent) !important; }
+    body[data-chapter="2"] .bom-chapter { border-color: rgba(30,80,200,0.15) !important; background: rgba(2,8,28,0.6) !important; }
+    body[data-chapter="2"] .bom-chapter.open { border-color: rgba(30,80,200,0.4) !important; box-shadow: 0 0 30px rgba(30,80,200,0.12), inset 0 0 40px rgba(10,40,150,0.08) !important; }
+    body[data-chapter="2"] .bom-chapter::before { background: linear-gradient(to bottom, #1e4fa8, #4a90d9) !important; }
+    body[data-chapter="2"] .bom-chapter-numeral { background: radial-gradient(circle, rgba(30,80,200,0.2), rgba(10,30,100,0.4)) !important; border-color: rgba(30,80,200,0.3) !important; color: #4a90d9 !important; }
+    body[data-chapter="2"] .bom-chapter.open .bom-chapter-numeral { background: radial-gradient(circle, rgba(60,120,255,0.4), rgba(20,60,180,0.5)) !important; border-color: #1e4fa8 !important; color: #a0c8ff !important; box-shadow: 0 0 20px rgba(60,120,255,0.4), 0 0 40px rgba(30,80,200,0.2) !important; }
+    body[data-chapter="2"] .bom-chapter-info h3 { color: #7ab0e0 !important; }
+    body[data-chapter="2"] .bom-chapter.open .bom-chapter-info h3 { color: #a0c8ff !important; }
+    body[data-chapter="2"] .bom-ep-card { border-left-color: rgba(30,80,200,0.3) !important; }
+    body[data-chapter="2"] .bom-ep-card:hover { background: rgba(30,80,200,0.08) !important; border-color: rgba(30,80,200,0.35) !important; border-left-color: #6aaeff !important; box-shadow: -4px 0 20px rgba(60,120,255,0.15) !important; }
+    body[data-chapter="2"] .bom-play { background: radial-gradient(circle, rgba(30,80,200,0.3), rgba(10,30,100,0.4)) !important; border-color: rgba(60,120,255,0.4) !important; color: #6aaeff !important; box-shadow: 0 0 12px rgba(30,80,200,0.3) !important; }
+    body[data-chapter="2"] .bom-ep-card:hover .bom-play { background: radial-gradient(circle, rgba(60,120,255,0.5), rgba(30,80,200,0.5)) !important; box-shadow: 0 0 24px rgba(60,120,255,0.5) !important; border-color: #6aaeff !important; }
+    body[data-chapter="2"] .bom-ep-label { color: rgba(30,80,200,0.55) !important; }
+    body[data-chapter="2"] .bom-ep-title { color: #7ab0e0 !important; }
+    body[data-chapter="2"] .bom-ep-card:hover .bom-ep-title { color: #a0c8ff !important; }
+    body[data-chapter="2"] .bom-music-card { border-left-color: rgba(30,80,200,0.25) !important; }
+    body[data-chapter="2"] .bom-music-card:hover { background: rgba(30,80,200,0.08) !important; border-left-color: #6aaeff !important; border-color: rgba(30,80,200,0.3) !important; }
+    body[data-chapter="2"] .bom-music-rune { background: rgba(30,80,200,0.12) !important; border-color: rgba(30,80,200,0.2) !important; }
+    body[data-chapter="2"] .bom-music-title { color: #7ab0e0 !important; }
+    body[data-chapter="2"] .bom-music-sub { color: rgba(30,80,200,0.45) !important; }
+    body[data-chapter="2"] .bom-music-play { background: radial-gradient(circle, rgba(30,80,200,0.3), rgba(10,30,100,0.4)) !important; border-color: rgba(60,120,255,0.35) !important; color: #6aaeff !important; box-shadow: 0 0 10px rgba(30,80,200,0.25) !important; }
+    body[data-chapter="2"] .player-inner { background: linear-gradient(to bottom, #040e24, #020814) !important; border-color: rgba(30,80,200,0.3) !important; box-shadow: 0 0 80px rgba(30,80,200,0.3), 0 0 0 1px rgba(30,80,200,0.15) !important; }
+    body[data-chapter="2"] .player-topbar { background: linear-gradient(to right, #040e24, #020814) !important; border-bottom-color: rgba(30,80,200,0.2) !important; }
+    body[data-chapter="2"] .player-episode-name { color: #a0c8ff !important; }
+    body[data-chapter="2"] .player-close { color: #6aaeff !important; }
+    body[data-chapter="2"] .footer { border-top-color: rgba(30,80,200,0.15) !important; background: linear-gradient(to top, #020814, transparent) !important; }
+    body[data-chapter="2"] .footer-copy { color: rgba(30,80,200,0.3) !important; }
+
+    /* ════════════════════
+       CHAPTER 3 — STORM OVER KNIGHTON
+       Electric violet / lightning white / crackling storm
+    ════════════════════ */
+    body[data-chapter="3"] {
+      background: #060210 !important;
+      color: #c8b8e8;
+    }
+    body[data-chapter="3"]::before {
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 6px),
+        radial-gradient(ellipse 120% 80% at 50% 0%, rgba(120,40,220,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 60% at 50% 100%, rgba(80,20,180,0.2) 0%, transparent 50%),
+        #060210 !important;
+    }
+    body[data-chapter="3"]::after { background: linear-gradient(to right, #060210, #180830 30%, #060210 70%, #03010a) !important; }
+    body[data-chapter="3"] .nav {
+      background: linear-gradient(to bottom, #100520, #060210) !important;
+      border-bottom-color: #7020c0 !important;
+      box-shadow: 0 4px 30px rgba(120,40,220,0.35), inset 0 -1px 0 rgba(180,100,255,0.2) !important;
+    }
+    body[data-chapter="3"] .nav::before { content: '⚡  TEMPESTAS  ⚡'; color: rgba(160,100,255,0.35) !important; }
+    body[data-chapter="3"] .book-hero-fire {
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 50%, rgba(120,40,220,0.25) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 30% at 50% 45%, rgba(180,100,255,0.18) 0%, transparent 50%) !important;
+      animation: heroFireBreath 2s ease-in-out infinite !important;
+    }
+    body[data-chapter="3"] .book-title { color: #c880ff !important; text-shadow: 0 0 30px rgba(160,60,255,0.7), 0 0 60px rgba(120,20,220,0.5), 0 0 100px rgba(80,0,180,0.3), 2px 4px 0 rgba(0,0,0,0.8) !important; }
+    body[data-chapter="3"] .book-section-title { color: #d8a8ff !important; text-shadow: 0 0 20px rgba(160,60,255,0.3), 2px 3px 0 rgba(0,0,0,0.7) !important; }
+    body[data-chapter="3"] .book-tome-label,
+    body[data-chapter="3"] .book-section-eyebrow { color: #9050d0 !important; }
+    body[data-chapter="3"] .book-desc { color: #a888c8 !important; }
+    body[data-chapter="3"] .book-divider-line { background: linear-gradient(to right, transparent, #7020c0, transparent) !important; }
+    body[data-chapter="3"] .book-divider-rune { color: #9050d0 !important; }
+    body[data-chapter="3"] .book-scroll-line { background: linear-gradient(to bottom, #7020c0, transparent) !important; }
+    body[data-chapter="3"] .page-turn-line { background: linear-gradient(to right, transparent, rgba(120,40,220,0.2) 20%, rgba(120,40,220,0.5) 50%, rgba(120,40,220,0.2) 80%, transparent) !important; }
+    body[data-chapter="3"] .bom-chapter { border-color: rgba(120,40,220,0.15) !important; background: rgba(6,2,16,0.6) !important; }
+    body[data-chapter="3"] .bom-chapter.open { border-color: rgba(120,40,220,0.4) !important; box-shadow: 0 0 30px rgba(120,40,220,0.15), inset 0 0 40px rgba(80,10,160,0.1) !important; }
+    body[data-chapter="3"] .bom-chapter::before { background: linear-gradient(to bottom, #c880ff, #7020c0) !important; }
+    body[data-chapter="3"] .bom-chapter-numeral { background: radial-gradient(circle, rgba(120,40,220,0.2), rgba(60,10,120,0.4)) !important; border-color: rgba(120,40,220,0.3) !important; color: #9050d0 !important; }
+    body[data-chapter="3"] .bom-chapter.open .bom-chapter-numeral { background: radial-gradient(circle, rgba(180,80,255,0.4), rgba(120,20,220,0.5)) !important; border-color: #7020c0 !important; color: #d8a8ff !important; box-shadow: 0 0 20px rgba(180,80,255,0.5), 0 0 40px rgba(120,40,220,0.25) !important; }
+    body[data-chapter="3"] .bom-chapter-info h3 { color: #b080d8 !important; }
+    body[data-chapter="3"] .bom-chapter.open .bom-chapter-info h3 { color: #d8a8ff !important; }
+    body[data-chapter="3"] .bom-ep-card { border-left-color: rgba(120,40,220,0.3) !important; }
+    body[data-chapter="3"] .bom-ep-card:hover { background: rgba(120,40,220,0.08) !important; border-color: rgba(120,40,220,0.35) !important; border-left-color: #c880ff !important; box-shadow: -4px 0 20px rgba(180,80,255,0.2) !important; }
+    body[data-chapter="3"] .bom-play { background: radial-gradient(circle, rgba(120,40,220,0.3), rgba(60,10,120,0.4)) !important; border-color: rgba(180,80,255,0.4) !important; color: #c880ff !important; box-shadow: 0 0 12px rgba(120,40,220,0.35) !important; }
+    body[data-chapter="3"] .bom-ep-card:hover .bom-play { background: radial-gradient(circle, rgba(180,80,255,0.5), rgba(120,20,220,0.5)) !important; box-shadow: 0 0 24px rgba(180,80,255,0.6) !important; border-color: #c880ff !important; }
+    body[data-chapter="3"] .bom-ep-label { color: rgba(120,40,220,0.55) !important; }
+    body[data-chapter="3"] .bom-ep-title { color: #b080d8 !important; }
+    body[data-chapter="3"] .bom-ep-card:hover .bom-ep-title { color: #d8a8ff !important; }
+    body[data-chapter="3"] .bom-music-card { border-left-color: rgba(120,40,220,0.25) !important; }
+    body[data-chapter="3"] .bom-music-card:hover { background: rgba(120,40,220,0.08) !important; border-left-color: #c880ff !important; border-color: rgba(120,40,220,0.3) !important; }
+    body[data-chapter="3"] .bom-music-rune { background: rgba(120,40,220,0.12) !important; border-color: rgba(120,40,220,0.2) !important; }
+    body[data-chapter="3"] .bom-music-title { color: #b080d8 !important; }
+    body[data-chapter="3"] .bom-music-sub { color: rgba(120,40,220,0.45) !important; }
+    body[data-chapter="3"] .bom-music-play { background: radial-gradient(circle, rgba(120,40,220,0.3), rgba(60,10,120,0.4)) !important; border-color: rgba(180,80,255,0.35) !important; color: #c880ff !important; box-shadow: 0 0 10px rgba(120,40,220,0.3) !important; }
+    body[data-chapter="3"] .player-inner { background: linear-gradient(to bottom, #100520, #060210) !important; border-color: rgba(120,40,220,0.3) !important; box-shadow: 0 0 80px rgba(120,40,220,0.3), 0 0 0 1px rgba(120,40,220,0.15) !important; }
+    body[data-chapter="3"] .player-topbar { background: linear-gradient(to right, #100520, #060210) !important; border-bottom-color: rgba(120,40,220,0.2) !important; }
+    body[data-chapter="3"] .player-episode-name { color: #d8a8ff !important; }
+    body[data-chapter="3"] .player-close { color: #c880ff !important; }
+    body[data-chapter="3"] .footer { border-top-color: rgba(120,40,220,0.15) !important; background: linear-gradient(to top, #060210, transparent) !important; }
+    body[data-chapter="3"] .footer-copy { color: rgba(120,40,220,0.3) !important; }
+
+    /* ════════════════════
+       CHAPTER 4 — THE FINAL BATTLE
+       Deep crimson / apocalyptic gold / everything burns
+    ════════════════════ */
+    body[data-chapter="4"] {
+      background: #0f0000 !important;
+      color: #e8c0b0;
+    }
+    body[data-chapter="4"]::before {
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.1) 2px, rgba(0,0,0,0.1) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,0.07) 3px, rgba(0,0,0,0.07) 6px),
+        radial-gradient(ellipse 120% 80% at 50% 0%, rgba(200,20,0,0.22) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 60% at 50% 100%, rgba(160,0,0,0.25) 0%, transparent 50%),
+        #0f0000 !important;
+    }
+    body[data-chapter="4"]::after { background: linear-gradient(to right, #0f0000, #2a0500 30%, #0f0000 70%, #080000) !important; }
+    body[data-chapter="4"] .nav {
+      background: linear-gradient(to bottom, #200500, #0f0000) !important;
+      border-bottom-color: #aa1500 !important;
+      box-shadow: 0 4px 30px rgba(200,20,0,0.4), inset 0 -1px 0 rgba(255,60,0,0.25) !important;
+    }
+    body[data-chapter="4"] .nav::before { content: '☠  PUGNA ULTIMA  ☠'; color: rgba(220,60,0,0.4) !important; }
+    body[data-chapter="4"] .book-hero-fire {
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 50%, rgba(200,20,0,0.35) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 30% at 50% 45%, rgba(255,60,0,0.25) 0%, transparent 50%) !important;
+      animation: heroFireBreath 1.5s ease-in-out infinite !important;
+    }
+    body[data-chapter="4"] .book-title { color: #ff3300 !important; text-shadow: 0 0 30px rgba(255,30,0,0.8), 0 0 60px rgba(200,10,0,0.6), 0 0 100px rgba(150,0,0,0.4), 0 0 140px rgba(100,0,0,0.2), 2px 4px 0 rgba(0,0,0,0.9) !important; }
+    body[data-chapter="4"] .book-section-title { color: #ffd070 !important; text-shadow: 0 0 20px rgba(255,120,0,0.4), 2px 3px 0 rgba(0,0,0,0.7) !important; }
+    body[data-chapter="4"] .book-tome-label,
+    body[data-chapter="4"] .book-section-eyebrow { color: #cc2200 !important; }
+    body[data-chapter="4"] .book-desc { color: #c09080 !important; }
+    body[data-chapter="4"] .book-divider-line { background: linear-gradient(to right, transparent, #aa1500, transparent) !important; }
+    body[data-chapter="4"] .book-divider-rune { color: #cc2200 !important; }
+    body[data-chapter="4"] .book-scroll-line { background: linear-gradient(to bottom, #aa1500, transparent) !important; }
+    body[data-chapter="4"] .page-turn-line { background: linear-gradient(to right, transparent, rgba(200,20,0,0.2) 20%, rgba(200,20,0,0.6) 50%, rgba(200,20,0,0.2) 80%, transparent) !important; }
+    body[data-chapter="4"] .bom-chapter { border-color: rgba(200,20,0,0.18) !important; background: rgba(15,0,0,0.7) !important; }
+    body[data-chapter="4"] .bom-chapter.open { border-color: rgba(200,20,0,0.5) !important; box-shadow: 0 0 40px rgba(200,20,0,0.2), inset 0 0 50px rgba(150,0,0,0.12) !important; }
+    body[data-chapter="4"] .bom-chapter::before { background: linear-gradient(to bottom, #ff3300, #ffd070) !important; }
+    body[data-chapter="4"] .bom-chapter-numeral { background: radial-gradient(circle, rgba(200,20,0,0.25), rgba(100,0,0,0.5)) !important; border-color: rgba(200,20,0,0.35) !important; color: #cc2200 !important; }
+    body[data-chapter="4"] .bom-chapter.open .bom-chapter-numeral { background: radial-gradient(circle, rgba(255,60,0,0.5), rgba(180,0,0,0.6)) !important; border-color: #aa1500 !important; color: #ffd070 !important; box-shadow: 0 0 24px rgba(255,40,0,0.6), 0 0 50px rgba(200,10,0,0.3) !important; }
+    body[data-chapter="4"] .bom-chapter-info h3 { color: #e08060 !important; }
+    body[data-chapter="4"] .bom-chapter.open .bom-chapter-info h3 { color: #ffd070 !important; }
+    body[data-chapter="4"] .bom-ep-card { border-left-color: rgba(200,20,0,0.35) !important; }
+    body[data-chapter="4"] .bom-ep-card:hover { background: rgba(200,20,0,0.1) !important; border-color: rgba(200,20,0,0.4) !important; border-left-color: #ff3300 !important; box-shadow: -4px 0 24px rgba(255,30,0,0.2) !important; }
+    body[data-chapter="4"] .bom-play { background: radial-gradient(circle, rgba(200,20,0,0.35), rgba(100,0,0,0.5)) !important; border-color: rgba(255,60,0,0.5) !important; color: #ff3300 !important; box-shadow: 0 0 14px rgba(200,20,0,0.45) !important; }
+    body[data-chapter="4"] .bom-ep-card:hover .bom-play { background: radial-gradient(circle, rgba(255,60,0,0.55), rgba(200,10,0,0.55)) !important; box-shadow: 0 0 28px rgba(255,40,0,0.65) !important; border-color: #ff3300 !important; }
+    body[data-chapter="4"] .bom-ep-label { color: rgba(200,20,0,0.6) !important; }
+    body[data-chapter="4"] .bom-ep-title { color: #e08060 !important; }
+    body[data-chapter="4"] .bom-ep-card:hover .bom-ep-title { color: #ffd070 !important; }
+    body[data-chapter="4"] .bom-music-card { border-left-color: rgba(200,20,0,0.3) !important; }
+    body[data-chapter="4"] .bom-music-card:hover { background: rgba(200,20,0,0.1) !important; border-left-color: #ff3300 !important; border-color: rgba(200,20,0,0.35) !important; }
+    body[data-chapter="4"] .bom-music-rune { background: rgba(200,20,0,0.15) !important; border-color: rgba(200,20,0,0.25) !important; }
+    body[data-chapter="4"] .bom-music-title { color: #e08060 !important; }
+    body[data-chapter="4"] .bom-music-sub { color: rgba(200,20,0,0.5) !important; }
+    body[data-chapter="4"] .bom-music-play { background: radial-gradient(circle, rgba(200,20,0,0.35), rgba(100,0,0,0.5)) !important; border-color: rgba(255,60,0,0.4) !important; color: #ff3300 !important; box-shadow: 0 0 12px rgba(200,20,0,0.35) !important; }
+    body[data-chapter="4"] .player-inner { background: linear-gradient(to bottom, #200500, #0f0000) !important; border-color: rgba(200,20,0,0.35) !important; box-shadow: 0 0 80px rgba(200,20,0,0.4), 0 0 0 1px rgba(200,20,0,0.18) !important; }
+    body[data-chapter="4"] .player-topbar { background: linear-gradient(to right, #200500, #0f0000) !important; border-bottom-color: rgba(200,20,0,0.25) !important; }
+    body[data-chapter="4"] .player-episode-name { color: #ffd070 !important; }
+    body[data-chapter="4"] .player-close { color: #ff3300 !important; }
+    body[data-chapter="4"] .footer { border-top-color: rgba(200,20,0,0.18) !important; background: linear-gradient(to top, #0f0000, transparent) !important; }
+    body[data-chapter="4"] .footer-copy { color: rgba(200,20,0,0.35) !important; }
   </style>
 </head>
 <body class="nexo-page">
@@ -772,6 +990,9 @@
 
   <script src="scripts/nav.js"></script>
   <script>
+    // ── SHARED THEME STATE ──
+    let activeTheme = { hueMin: 15, hueRange: 25, saturation: 100 };
+
     // ── EMBER PARTICLE SYSTEM ──
     (function() {
       const canvas = document.getElementById('emberCanvas');
@@ -793,7 +1014,8 @@
         this.speedX = (Math.random() - 0.5) * 0.6;
         this.life = 1;
         this.decay = 0.003 + Math.random() * 0.006;
-        this.hue = 15 + Math.random() * 25; // orange-red range
+        const t = activeTheme || { hueMin: 15, hueRange: 25 };
+        this.hue = t.hueMin + Math.random() * t.hueRange;
       }
 
       function loop() {
@@ -857,6 +1079,7 @@
     chapters.forEach((ch, idx) => {
       const block = document.createElement('div');
       block.className = 'bom-chapter' + (idx === 0 ? ' open' : '');
+      block.dataset.chapterNum = ch.number;
       block.innerHTML = `
         <div class="bom-chapter-header">
           <div class="bom-chapter-left">
@@ -883,15 +1106,36 @@
       list.appendChild(block);
     });
 
+    // ── CHAPTER THEME CONFIG ──
+    const chapterThemes = {
+      1: { hueMin: 15,  hueRange: 25,  saturation: 100, label: '✦  LIBER MONSTRORUM  ✦' },
+      2: { hueMin: 210, hueRange: 30,  saturation: 100, label: '✦  CODEX MILITUM  ✦'    },
+      3: { hueMin: 270, hueRange: 30,  saturation: 100, label: '⚡  TEMPESTAS  ⚡'        },
+      4: { hueMin: 0,   hueRange: 15,  saturation: 100, label: '☠  PUGNA ULTIMA  ☠'     },
+    };
+    function applyChapterTheme(num) {
+      document.body.dataset.chapter = num;
+      activeTheme = chapterThemes[num] || chapterThemes[1];
+    }
+
     // ── ACCORDION ──
     document.querySelectorAll('.bom-chapter-header').forEach(h => {
       h.addEventListener('click', () => {
         const block = h.closest('.bom-chapter');
         const isOpen = block.classList.contains('open');
         document.querySelectorAll('.bom-chapter').forEach(b => b.classList.remove('open'));
-        if (!isOpen) block.classList.add('open');
+        if (!isOpen) {
+          block.classList.add('open');
+          applyChapterTheme(block.dataset.chapterNum);
+        } else {
+          // collapsed back — go to ch1 default
+          applyChapterTheme(1);
+        }
       });
     });
+
+    // Set default theme
+    applyChapterTheme(1);
 
     // ── MUSIC ──
     const musicTracks = [
